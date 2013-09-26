@@ -23,7 +23,7 @@ module UrlsHelper
   end
 
   def options_for_url_state_select(state)
-    options = [['Unseen', 'unseen'], ['Saved for review', 'review'], ['Saved as final', 'final']]
+    options = [['For review', 'review'],['Needs updating','updating'],['Updated, ready for migration','updated'],['Ignore','ignore'],['Migrated','migrated']]
     options_for_select(options, state)
   end
 
