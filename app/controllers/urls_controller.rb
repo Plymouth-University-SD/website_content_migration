@@ -1,23 +1,25 @@
 class UrlsController < ApplicationController
 
   include UrlsHelper
-  URL_FILTER_QUERY_TO_STATE = {'unseen' => 'new', 'review' => 'unfinished', 'final' => 'finished'}
+  URL_FILTER_QUERY_TO_STATE = {'updating' => 'updating', 'updated' => 'updated', 'ignore' => 'ignore', 'migrated' => 'migrated'}
 
   before_filter :find_site
 
   def index
-    @urls = url_filter(@site.urls)
+    @urls = url_filter(@site.urls).page(params[:page]).per(50)
     @url = @urls.first
+    
     flash.now[:error] = 'No Urls were found' if @url.nil?
     render 'show'
   end
 
   def show
-    @urls = url_filter(@site.urls)
+    @urls = url_filter(@site.urls).page(params[:page]).per(50)
     @url = @urls.find_by_id(params[:id])
+    
     if @url.nil?
       @url = url_filter(@site.urls).first
-      redirect_to site_url_path(@site, @url, url_filter_hash) and return if @url
+      redirect_to site_url_path(@site, @url,  url_filter_hash) and return if @url
     end
     @last_saved_url = @site.urls.find(params[:last_saved_url]) if params[:last_saved_url].present?
     flash.now[:error] = 'No Urls were found' if @url.nil?

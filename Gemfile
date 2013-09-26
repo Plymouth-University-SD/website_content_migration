@@ -20,6 +20,7 @@ gem 'acts_as_list', '0.2.0'
 
 gem 'activerecord-import', '0.3.1'
 gem 'rgarner-csv-mapper', '1.0.0'
+gem 'kaminari'
 gem 'kramdown', '1.1.0'
 gem 'optic14n', '1.0.0' # Ideally version should be synced with bouncer
 
@@ -46,5 +47,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails', '2.13.2'
+  gem 'archive_lister'
+  gem 'mechanize'
   # gem 'debugger'
 end
