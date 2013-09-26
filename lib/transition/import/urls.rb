@@ -13,10 +13,19 @@ module Transition
           named_columns
 
           url('Url')
-
+          title('Title')
+          
+          url.url = "urlll"
+          
           after_row lambda { |row, url|
             logger.warn('ignoring empty row') and return if row.empty?
             url.url = BLURI(url.url).canonicalize!(allow_query: :all).to_s
+            
+            
+            
+            #url.url = url.url.encode('utf-8', 'iso-8859-1')
+  
+            
             url.site = site
             if (url.save rescue false)
               successes += 1

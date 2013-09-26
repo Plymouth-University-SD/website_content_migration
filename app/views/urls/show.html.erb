@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="inputs-block comments">
-        <%= f.text_area :comments, placeholder: 'Comments...' %>
+        <%= f.text_area :comments, placeholder: 'Comments...', cols: "5", rows: "5" %>
       </div>
       <div class="inputs-block column-3">
         <div class="scrape">
@@ -67,4 +67,4 @@
 <%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.guidance), dialog_id: 'dialog_guidance', dialog_title: 'Create Guidance'} %>
 <%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.series), dialog_id: 'dialog_series', dialog_title: 'Create Document Series'} %>
 
-<iframe src="<%= @url.try(:url) %>" class="preview"></iframe>
+<iframe height="700px" width="100%" src="<%= @url.try(:url) %>" class="preview"></iframe>
