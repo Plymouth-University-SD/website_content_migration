@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe '#url_classy_link' do
   context 'the URL is :new' do
-    let(:url)         { build(:url, id: 1) }
-    let(:current_url) { build(:url, url: 'http://elsewhere', id: 2) }
+    let(:url)         { create(:url, id: 1) }
+    let(:current_url) { create(:url, url: 'http://elsewhere', id: 2) }
 
     context "it's the current URL" do
       subject { helper.classy_link(url, url) }

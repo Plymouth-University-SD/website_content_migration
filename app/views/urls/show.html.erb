@@ -35,7 +35,7 @@
         </div>
       </div>
       <div class="inputs-block comments">
-        <%= f.text_area :comments, placeholder: 'Comments...' %>
+        <%= f.text_area :comments, placeholder: 'Comments...', cols: "5", rows: "5" %>
       </div>
       <div class="inputs-block column-3">
         <div class="scrape">
@@ -55,8 +55,12 @@
           <%= content_tag :li do %>
             <%= link_to 'Same as last saved', '#', id: 'same_as_last', 'data-last-saved-url' => @last_saved_url.to_json %>
           <% end if @last_saved_url %>
-          <li><%= button_tag 'Save as final', name: 'destiny', value: 'finished', class: "#{@url.state == :finished ? 'selected ' : ''}finished" %></li>
-          <li><%= button_tag 'Save for review later', name: 'destiny', value: 'unfinished', class: "#{@url.state == :unfinished ? 'selected ' : ''}unfinished" %></li>
+          <li><%= button_tag 'Needs updating', name: 'destiny', value: 'updating', class: "#{@url.state == :updating ? 'selected ' : ''}updating" %></li>
+          <li><%= button_tag 'Updated, ready for migration', name: 'destiny', value: 'updated', class: "#{@url.state == :updated ? 'selected ' : ''}updated" %></li>
+          <li><%= button_tag 'Ignore', name: 'destiny', value: 'ignore', class: "#{@url.state == :ignore ? 'selected ' : ''}ignore" %></li>
+          <li><%= button_tag 'Migrated', name: 'destiny', value: 'migrated', class: "#{@url.state == :migrated ? 'selected ' : ''}migrated" %></li>
+          
+		  
           <li><%= link_to 'Cancel', site_urls_path(@url.site), class: 'cancel button' %></li>
         </ul>
       </div>
@@ -67,4 +71,4 @@
 <%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.guidance), dialog_id: 'dialog_guidance', dialog_title: 'Create Guidance'} %>
 <%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.series), dialog_id: 'dialog_series', dialog_title: 'Create Document Series'} %>
 
-<iframe src="<%= @url.try(:url) %>" class="preview"></iframe>
+<iframe height="700px" width="100%" src="<%= @url.try(:url) %>" class="preview"></iframe>
