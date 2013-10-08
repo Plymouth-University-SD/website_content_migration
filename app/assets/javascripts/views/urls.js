@@ -6,8 +6,8 @@
   if(typeof root.GOVUK === 'undefined') { root.GOVUK = {}; }
 
   var Urls = {
-    enableDisableDropdown: function(content_type_dropdown, dropdown_id, data_attribute) {
-      var enable = $(content_type_dropdown).find('option:selected').attr(data_attribute);
+    enableDisableDropdown: function(sort_by, dropdown_id, data_attribute) {
+      var enable = $(sort_by).find('option:selected').attr(data_attribute);
       var $dropdown = $(dropdown_id);
 
       if (enable === 'true') {
@@ -37,7 +37,7 @@
       $('.column-3 .scrape').showEnableIf(scrapable);
     },
 
-    contentTypeChanged: function(dropdown) {
+    sort_by: function(dropdown) {
       Urls.guidanceEnableDisable($(dropdown));
       Urls.seriesEnableDisable($(dropdown));
       Urls.userNeedEnableDisable($(dropdown));
@@ -55,8 +55,7 @@
       }
        
       // Add new parameters or update existing ones
-      var filterNames = { '#filter_by_state': 'state', '#filter_by_content_type': 'content_type',
-        '#filter_by_scrape_status': 'for_scrape' };
+      var filterNames = { '#filter_by_state': 'state', '#sort_by': 'sort_by'};
       for (var filterName in filterNames) {
         if ($(filterName).val()) {
           queryParameters[filterNames[filterName]] = $(filterName).val();
@@ -165,7 +164,7 @@
           allowClear: true
         });
 
-        $('#filter_by_content_type, #filter_by_state, #filter_by_scrape_status').change(function() {
+        $('#sort_by, #filter_by_state, #filter_by_scrape_status').change(function() {
           Urls.filterChange();
         });
 
@@ -181,20 +180,18 @@
 
         Urls.setupUrlGroupDialog();
 
-        var content_type_dropdown = $('#url_content_type_id');
+        var sort_by = $('#sort_by');
 
         /**
          * according to the content type selected:
          *   * Enable/disable user needs dropdown
          *   * Enable/disable scrape buttons
          */
-        content_type_dropdown.change(function() {
-            Urls.contentTypeChanged(this);
+        sort_by.change(function() {
+            Urls.sort_by(this);
         });
         // only run contentTypeChanged if there is a content type dropdown
-        if (content_type_dropdown.length > 0) {
-          Urls.contentTypeChanged(content_type_dropdown.get(0));
-        }
+        
       });
     }
   };

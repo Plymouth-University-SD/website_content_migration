@@ -50,11 +50,10 @@ class UrlsController < ApplicationController
   protected
 
   def url_filter(urls)
-    urls = urls.where(content_type_id: params[:content_type]) if params[:content_type].present?
     urls = urls.where(state: URL_FILTER_QUERY_TO_STATE[params[:state]]) if params[:state].present?
     urls = urls.where(for_scraping: params[:for_scrape] == 'true') if params[:for_scrape].present?
     urls = urls.where("url like ?", "%#{params[:q]}%") if params[:q].present?
-    urls = urls.order(:id)
+    urls = urls.order(params[:sort_by]) if params[:sort_by].present?
     urls
   end
 end
