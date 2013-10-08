@@ -31,6 +31,12 @@ module UrlsHelper
     options = [['For scrape', 'true'], ['Not for scrape', 'false']]
     options_for_select(options, for_scrape)
   end
+  
+  def options_for_sort_select(sort_by)
+    if sort_by == nil then sort_by = 'url' end
+    options = [['Title','title'], ['URL', 'url']]
+    options_for_select(options, sort_by)
+  end
 
   def grouped_options_for_content_type_select(url_or_content_type_id)
     content_type_id = url_or_content_type_id.is_a?(Url) ? url_or_content_type_id.content_type_id : url_or_content_type_id
