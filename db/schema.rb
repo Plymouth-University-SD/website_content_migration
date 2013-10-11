@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130830162637) do
+ActiveRecord::Schema.define(:version => 20131010115400) do
+
+  create_table "assignments", :force => true do |t|
+    t.integer  "uopuser_id"
+    t.integer  "url_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "content_types", :force => true do |t|
     t.string   "type"
@@ -169,6 +176,14 @@ ActiveRecord::Schema.define(:version => 20130830162637) do
 
   add_index "totals", ["host_id", "total_on", "http_status"], :name => "index_totals_on_host_id_and_total_on_and_http_status", :unique => true
 
+  create_table "uopusers", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "uid"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "url_group_types", :force => true do |t|
     t.string   "name",       :null => false
     t.datetime "created_at", :null => false
@@ -199,6 +214,7 @@ ActiveRecord::Schema.define(:version => 20130830162637) do
     t.integer  "user_need_id"
     t.boolean  "scrape_finished",                 :default => false, :null => false
     t.integer  "series_id"
+    t.string   "title"
   end
 
   add_index "urls", ["guidance_id"], :name => "index_urls_on_url_group_id"

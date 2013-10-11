@@ -6,17 +6,15 @@ class UrlsController < ApplicationController
   before_filter :find_site
 
   def index
-    @urls = url_filter(@site.urls).page(params[:page]).per(50)
+    @urls = url_filter(@site.urls)
     @url = @urls.first
     
     flash.now[:error] = 'No Urls were found' if @url.nil?
-    render 'show'
   end
 
   def show
-    @urls = url_filter(@site.urls).page(params[:page]).per(50)
-    @url = @urls.find_by_id(params[:id])
-    
+    @urls = url_filter(@site.urls)
+    @url = @urls.find(params[:id])
     if @url.nil?
       @url = url_filter(@site.urls).first
       redirect_to site_url_path(@site, @url,  url_filter_hash) and return if @url
@@ -52,7 +50,10 @@ class UrlsController < ApplicationController
   def url_filter(urls)
     urls = urls.where(state: URL_FILTER_QUERY_TO_STATE[params[:state]]) if params[:state].present?
     urls = urls.where(for_scraping: params[:for_scrape] == 'true') if params[:for_scrape].present?
-    urls = urls.where("url like ?", "%#{params[:q]}%") if params[:q].present?
+    if params[:q].present? then
+      urls = urls.where("url like ?", "%#{params[:q]}%") if params[:search_by] == 'url'
+      urls = urls.where("title like ?", "%#{params[:q]}%") if params[:search_by] == 'title'
+    end
     urls = urls.order(params[:sort_by]) if params[:sort_by].present?
     urls
   end

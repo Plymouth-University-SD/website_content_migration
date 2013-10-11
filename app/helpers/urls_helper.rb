@@ -32,10 +32,15 @@ module UrlsHelper
     options_for_select(options, for_scrape)
   end
   
-  def options_for_sort_select(sort_by)
-    if sort_by == nil then sort_by = 'url' end
+  def options_for_sort_by_select(sort_by)
     options = [['Title','title'], ['URL', 'url']]
     options_for_select(options, sort_by)
+  end
+  
+  def options_for_search_by_select(search_by)
+    if search_by == nil then search_by = 'url' end
+    options = [['Title','title'], ['URL', 'url']]
+    options_for_select(options, search_by)
   end
 
   def grouped_options_for_content_type_select(url_or_content_type_id)

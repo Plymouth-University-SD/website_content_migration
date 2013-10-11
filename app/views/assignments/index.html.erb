@@ -1,0 +1,21 @@
+
+<h2>Assignments for <%= @uopuser.name%> </h2>
+	
+<div class="uopuser">
+	<p>email: <%= @uopuser.email %></p>
+	<p>uid: <%= @uopuser.uid %></p>
+</div>
+	
+<div class="assignments">	
+	<%if @assignments.count == 0 then%>
+		None
+	<%else%>
+		<table>
+			<% @assignments.each do |a|%>
+				<tr>
+					<td><a href="<%=site_url_path(a.url.site.id,a.url.id)%>"><%=a.url%></a><td>
+				</tr>
+			<% end %>
+		</table>
+	<%end%>
+</div>

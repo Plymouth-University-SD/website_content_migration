@@ -1,10 +1,12 @@
 <%= form_tag site_urls_path(@site), method: 'get', class: 'search_form' do %>
-  <%= text_field_tag 'q', params[:q], placeholder: 'Search on Url', id: 'search' %>
+  <%= text_field_tag 'q', params[:q], placeholder: 'Search on', id: 'search' %>
+	<%= select_tag 'search_by', options_for_search_by_select(params[:search_by]),class: 'select2',include_blank: false, placeholder: 'Search by' %>
   <%= render "url_filter_hidden_fields" %>
   <%= submit_tag 'Find', class: 'search_button' %>
 <% end %>
 
 <%= select_tag 'filter_by_state', options_for_url_state_select(params[:state]), class: 'select2', include_blank: true, placeholder: 'Filter by state' %>
-&nbsp;Sort by:&nbsp;<%= select_tag 'sort_by', options_for_sort_select(params[:sort_by]), class: 'select2', include_blank: false, placeholder: 'Sort by' %>
+&nbsp;Sort by:&nbsp;
+<%= select_tag 'sort_by', options_for_sort_by_select(params[:sort_by]), class: 'select2', include_blank: true, placeholder: 'Sort by' %>
 <!--<%= select_tag 'filter_by_scrape_status', options_for_scrape_select(params[:for_scrape]), class: 'select2', include_blank: true, placeholder: 'Filter by scrape status' %>-->
 <%= button_tag 'Reset', id: 'reset' %>
