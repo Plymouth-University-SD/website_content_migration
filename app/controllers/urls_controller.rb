@@ -7,14 +7,13 @@ class UrlsController < ApplicationController
 
   def index
     @urls = url_filter(@site.urls)
-    @url = @urls.first
-    
-    flash.now[:error] = 'No Urls were found' if @url.nil?
+    @uopusers = Uopuser.all
+    flash.now[:error] = 'No Urls were found' if @urls.count == 0
   end
 
   def show
-    @urls = url_filter(@site.urls)
-    @url = @urls.find(params[:id])
+    #@urls = url_filter(@site.urls)
+    @url = Url.find(params[:id])
     if @url.nil?
       @url = url_filter(@site.urls).first
       redirect_to site_url_path(@site, @url,  url_filter_hash) and return if @url
@@ -36,7 +35,8 @@ class UrlsController < ApplicationController
         url.for_scraping = nil if params[:url] && params[:url][:for_scraping].nil?
       end
       if selected_urls.all? {|url| url.update_attributes(params[:url]) }
-        redirect_to site_url_path(@url.site, @url.next(url_filter(@site.urls)), url_filter_hash.merge(last_saved_url: @url.id)) and return
+        #redirect_to site_url_path(@url.site, @url.next(url_filter(@site.urls)), url_filter_hash.merge(last_saved_url: @url.id)) and return
+        redirect_to uopuser_assignments_path(@url.assignment.uopuser_id, url_filter_hash.merge(last_saved_url: @url.id)) and return
       else
         @urls = url_filter(@site.urls)
         raise ActiveRecord::Rollback

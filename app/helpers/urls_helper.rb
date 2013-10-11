@@ -42,6 +42,14 @@ module UrlsHelper
     options = [['Title','title'], ['URL', 'url']]
     options_for_select(options, search_by)
   end
+  
+  def options_for_assign_to_select(assignee)
+    options = []
+    @uopusers.each do |u|
+      options << [u.name,u.uid]
+    end
+    options_for_select(options,assignee)
+  end
 
   def grouped_options_for_content_type_select(url_or_content_type_id)
     content_type_id = url_or_content_type_id.is_a?(Url) ? url_or_content_type_id.content_type_id : url_or_content_type_id

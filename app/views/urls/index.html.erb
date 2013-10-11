@@ -4,6 +4,7 @@
 
   <% if @url.nil? %>
     <%= render partial: 'url_list'  %>
+		<%= render partial: 'url_assignment_form'%>
 
   <% else %>
     <%= form_for :url, url: site_url_path(@url.site, @url), method: 'PUT', html: { id: 'url_form' } do |f| %>
@@ -68,7 +69,8 @@
   <% end %>
 </div>
 
+
 <%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.guidance), dialog_id: 'dialog_guidance', dialog_title: 'Create Guidance'} %>
 <%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.series), dialog_id: 'dialog_series', dialog_title: 'Create Document Series'} %>
 
-<iframe height="700px" width="100%" src="<%= @url.try(:url) %>" class="preview"></iframe>
+<!--<iframe height="700px" width="100%" src="<%= @url.try(:url) %>" class="preview"></iframe>-->

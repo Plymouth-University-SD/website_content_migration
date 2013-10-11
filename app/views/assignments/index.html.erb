@@ -11,11 +11,17 @@
 		None
 	<%else%>
 		<table>
-			<% @assignments.each do |a|%>
-				<tr>
-					<td><a href="<%=site_url_path(a.url.site.id,a.url.id)%>"><%=a.url%></a><td>
-				</tr>
+			<% @statuses.each do |s|%>
+				<tr><th><%=s.to_s%></th></tr>
+				<% @assignments.each do |a|%>
+					<% if a.url.state == s then %>
+						<tr>
+							<td style="<%= 'background-color:#ffff99;' if a.url.id.to_s == params[:last_saved_url]%>"><a href="<%=site_url_path(a.url.site.id,a.url.id)%>"><%=a.url%></a><td> 
+						</tr>
+					<% end %>	
+				<% end %>
 			<% end %>
 		</table>
 	<%end%>
 </div>
+<br>
