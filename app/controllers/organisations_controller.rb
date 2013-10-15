@@ -24,6 +24,7 @@ class OrganisationsController < ApplicationController
     @organisation = Organisation.find_by_abbr(params[:id])
     @counts = @organisation.summarise_url_state
     @total_urls = @counts.values.inject(0) {|sum, n| sum + n}
+    @pages_completed = @organisation.pages_completed
 
     respond_to do |format|
       format.html # show.html.erb

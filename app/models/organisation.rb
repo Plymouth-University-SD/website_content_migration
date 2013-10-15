@@ -70,4 +70,11 @@ class Organisation < ActiveRecord::Base
   def to_param
     abbr
   end
+  
+  def pages_completed
+    migrated_count = urls.where('state = ?', 'migrated').count
+    ignore_count = urls.where('state = ?', 'ignore').count
+    pages_completed_total = migrated_count + ignore_count
+  end
+    
 end

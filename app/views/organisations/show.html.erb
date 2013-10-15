@@ -17,8 +17,13 @@
       <dd><%= link_to @organisation.furl, "http://#{@organisation.furl}" %></dd>
       <dt>Progress:</dt>
       <dd>
-        <table>
-        <% %w{new unfinished finished}.each do |state| %>
+        <table border="1" cellpadding="10">
+			<tr>
+				<td>Pages completed</td>
+				<td><%= @pages_completed %></td>
+				<td><%= "%.1f" % ((@pages_completed || 0) * 100.0 / @total_urls.to_f) %>%</td>
+			</tr>
+        <% %w{new review update updating ignore migrated}.each do |state| %>
           <tr>
             <td><%= state %></td>
             <td><%= @counts[state] || 0 %></td>
@@ -49,13 +54,46 @@
           <dt>Homepage:</dt>
           <dd><%= link_to site.homepage, site.homepage %></dd>
 
-          <% unless site.query_params.try(:empty?) %>
-            <dt>query_params:</dt>
-            <dd><%= site.query_params %>
-          <% end %>
-
-          <dt>TNA Timestamp</dt>
-          <dd><%= site.tna_timestamp %></dd>
+          <dt>Progress:</dt>
+	      <dd>
+	        <table border="1" cellpadding="10">
+  	          <tr>
+  	            <td>Pages completed</td>
+  	            <td><%= site.pages_completed %></td>
+  				<td><%= "%.1f" % ((site.pages_completed || 0) * 100.0 / site.url_count.to_f) %>%</td>
+  	          </tr>
+	          <tr>
+	            <td>Pages new</td>
+	            <td><%= site.summarise_url_state('new') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('new') || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	          </tr>
+	          <tr>
+	            <td>Pages to review</td>
+	            <td><%= site.summarise_url_state('review') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('review') || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	          </tr>
+	          <tr>
+	            <td>Pages to update</td>
+	            <td><%= site.summarise_url_state('update') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('update') || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	          </tr>
+	          <tr>
+	            <td>Pages updated</td>
+	            <td><%= site.summarise_url_state('updating') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('updating') || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	          </tr>
+	          <tr>
+	            <td>Pages to ignore</td>
+	            <td><%= site.summarise_url_state('ignore') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('ignore') || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	          </tr>
+	          <tr>
+	            <td>Pages migrated</td>
+	            <td><%= site.summarise_url_state('migrated') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('migrated') || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	          </tr>
+	        </table>
+	      </dd>
         </dl>
 
         <table class="table table-hover">
