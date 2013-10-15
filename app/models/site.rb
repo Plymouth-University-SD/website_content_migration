@@ -44,28 +44,8 @@ class Site < ActiveRecord::Base
     urls.count
   end
   
-  def summarise_url_state_new
-    urls.where('state = ?', 'new').count
-  end
-  
-  def summarise_url_state_review
-    urls.where('state = ?', 'review').count
-  end
-  
-  def summarise_url_state_update
-    urls.where('state = ?', 'update').count
-  end
-  
-  def summarise_url_state_updated
-    urls.where('state = ?', 'updating').count
-  end
-  
-  def summarise_url_state_ignore
-    urls.where('state = ?', 'ignore').count
-  end
-  
-  def summarise_url_state_migrated
-    urls.where('state = ?', 'migrated').count
+  def summarise_url_state(state)
+    urls.where('state = ?', state).count
   end
   
   def pages_completed

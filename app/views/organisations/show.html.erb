@@ -64,33 +64,33 @@
   	          </tr>
 	          <tr>
 	            <td>Pages new</td>
-	            <td><%= site.summarise_url_state_new %></td>
-				<td><%= "%.1f" % ((site.summarise_url_state_new || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	            <td><%= site.summarise_url_state('new') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('new') || 0) * 100.0 / site.url_count.to_f) %>%</td>
 	          </tr>
 	          <tr>
 	            <td>Pages to review</td>
-	            <td><%= site.summarise_url_state_review %></td>
-				<td><%= "%.1f" % ((site.summarise_url_state_review || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	            <td><%= site.summarise_url_state('review') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('review') || 0) * 100.0 / site.url_count.to_f) %>%</td>
 	          </tr>
 	          <tr>
 	            <td>Pages to update</td>
-	            <td><%= site.summarise_url_state_update %></td>
-				<td><%= "%.1f" % ((site.summarise_url_state_update || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	            <td><%= site.summarise_url_state('update') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('update') || 0) * 100.0 / site.url_count.to_f) %>%</td>
 	          </tr>
 	          <tr>
 	            <td>Pages updated</td>
-	            <td><%= site.summarise_url_state_updated %></td>
-				<td><%= "%.1f" % ((site.summarise_url_state_updated || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	            <td><%= site.summarise_url_state('updating') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('updating') || 0) * 100.0 / site.url_count.to_f) %>%</td>
 	          </tr>
 	          <tr>
 	            <td>Pages to ignore</td>
-	            <td><%= site.summarise_url_state_ignore %></td>
-				<td><%= "%.1f" % ((site.summarise_url_state_ignore || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	            <td><%= site.summarise_url_state('ignore') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('ignore') || 0) * 100.0 / site.url_count.to_f) %>%</td>
 	          </tr>
 	          <tr>
 	            <td>Pages migrated</td>
-	            <td><%= site.summarise_url_state_migrated %></td>
-				<td><%= "%.1f" % ((site.summarise_url_state_migrated || 0) * 100.0 / site.url_count.to_f) %>%</td>
+	            <td><%= site.summarise_url_state('migrated') %></td>
+				<td><%= "%.1f" % ((site.summarise_url_state('migrated') || 0) * 100.0 / site.url_count.to_f) %>%</td>
 	          </tr>
 	        </table>
 	      </dd>
