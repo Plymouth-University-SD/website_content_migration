@@ -6,7 +6,7 @@
       </h1>
     </div>
 
-    <p class="requests-link"><%= link_to "View organisation requests", page_path(@organisation) %></p>
+    
 
     <dl class="dl-horizontal">
       <dt>Launch date:</dt>
@@ -41,11 +41,8 @@
         <h3><%= site.site %></h3>
         <div class="site-links">
           <ul class="inline">
-            <li><%= link_to "Requests", page_path(@organisation, site: site.id) %></li>
             <% unless DISABLE_EDITING %>
-              <li><%= link_to "Analysis", site_urls_path(site_id: site) %></li>
-              <li><%= link_to "Manual", site_manual_urls_path(site_id: site) %></li>
-              <li><%= link_to "Mappings", site_mappings_path(site_id: site) %></li>
+              <li><%= link_to "List URLs", site_urls_path(site_id: site) %></li>
             <% end %>
           </ul>
         </div>
