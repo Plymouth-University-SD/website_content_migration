@@ -14,8 +14,8 @@
 ActiveRecord::Schema.define(:version => 20131010115400) do
 
   create_table "assignments", :force => true do |t|
-    t.integer  "uopuser_id"
-    t.integer  "url_id"
+    t.integer  "uopuser_id", :null => false
+    t.integer  "url_id", :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

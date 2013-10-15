@@ -5,7 +5,7 @@ module AssignmentsHelper
     sites.each do |s|
       options << [s.site, s.id]
     end
-    if site == nil
+    if site.nil?
       selected = nil
     else
       selected = site.id
