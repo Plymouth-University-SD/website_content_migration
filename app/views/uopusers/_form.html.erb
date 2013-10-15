@@ -1,0 +1,32 @@
+<%= form_for(@uopuser) do |f| %>
+
+	<% if @uopuser.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@uopuser.errors.count, "error") %>
+			prohibited this Uopuser from being saved: </h2>
+			
+			<ul>
+				<% @uopuser.errors.full_messages.each do |msg|%>
+					<li> <%= msg %></li>
+				<% end %>
+			<ul>
+	</div>
+	<% end %>
+
+	<div class="field">
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	</div>
+	<div class="field">
+		<%= f.label :email %>
+		<%= f.text_field :email %>
+	</div>
+	<div class="field">
+		<%= f.label :uid %>
+		<%= f.text_field :uid %>
+	</div>
+	<div class="actions">
+		<%= f.submit %>
+	</div>
+	<a href="<%= uopusers_path %>">List All</a>
+<% end %>

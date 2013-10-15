@@ -17,6 +17,11 @@ Transition::Application.routes.draw do
   end
 
   resources :pages
+  
+  resources :uopusers do
+    resources :assignments
+  end
+  
 
   resources :url_groups, only: [:create]
   resources :user_needs, only: [:index, :create, :edit, :update, :destroy]

@@ -23,7 +23,7 @@ module UrlsHelper
   end
 
   def options_for_url_state_select(state)
-    options = [['For review', 'review'],['Needs updating','updating'],['Updated, ready for migration','updated'],['Ignore','ignore'],['Migrated','migrated']]
+    options = [['New', 'new'],['For review', 'review'],['Needs updating','updating'],['Updated, ready for migration','updated'],['Ignore','ignore'],['Migrated','migrated']]
     options_for_select(options, state)
   end
 
@@ -32,10 +32,23 @@ module UrlsHelper
     options_for_select(options, for_scrape)
   end
   
-  def options_for_sort_select(sort_by)
-    if sort_by == nil then sort_by = 'url' end
+  def options_for_sort_by_select(sort_by)
     options = [['Title','title'], ['URL', 'url']]
     options_for_select(options, sort_by)
+  end
+  
+  def options_for_search_by_select(search_by)
+    if search_by == nil then search_by = 'url' end
+    options = [['Title','title'], ['URL', 'url']]
+    options_for_select(options, search_by)
+  end
+  
+  def options_for_assign_to_select(assignee)
+    options = []
+    @uopusers.each do |u|
+      options << [u.name,u.uid]
+    end
+    options_for_select(options,assignee)
   end
 
   def grouped_options_for_content_type_select(url_or_content_type_id)
