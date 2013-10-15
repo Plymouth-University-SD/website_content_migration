@@ -1,0 +1,41 @@
+
+<h2>Assignments for <%= @uopuser.name%> </h2>
+	
+<div class="uopuser">
+	<p>email: <%= @uopuser.email %></p>
+	<p>uid: <%= @uopuser.uid %></p>
+	<a href='<%= new_uopuser_assignment_path %>'>Assign new URLs</a>
+</div>
+	
+<div class="assignments">	
+	<%if @assignments.count == 0 then%>
+		None
+	<%else%>
+		<% @statuses.each do |s|%>
+			<% if s == :review then %>							
+				<form action='<%=uopuser_assignments_path(@uopuser.id)%>' method='Get'>
+			<% end %>
+			<table>
+				<tr><th colspan='2'><%=s.to_s%></th></tr>
+				<% @assignments.each do |a|%>
+					<% if a.url.state == s%>
+						<% if a.url.id.to_s == params[:last_saved_url]%>
+							<tr style='background-color:#FFFFbb;'>
+						<%else%>
+							<tr>
+						<% end %>
+							<td><%= check_box_tag("url_select[#{a.id}]", a.url.id, false, disabled: false) if s == :review %></td>
+							<td><a href="<%=site_url_path(a.url.site.id,a.url.id)%>"><%=a.url%></a>&nbsp;&nbsp;</td>
+							<td><%=a.url.title%></td> 
+						</tr>
+					<% end %>
+				<%end%>
+			</table>
+			<% if s == :review then %>	
+				<%= button_tag 'Unassign', name: 'unassign', value: 'unassign', class: "unassign" %>
+				</form>
+			<% end %>	
+		<% end %>
+	<%end%>
+</div>
+<br>

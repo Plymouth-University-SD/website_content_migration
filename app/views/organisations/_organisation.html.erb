@@ -3,4 +3,5 @@
   <td><%= organisation.launch_date.to_s(:long_ordinal) %></td>
   <td><%= link_to "View requests", page_path(organisation) %></td>
   <td><%= link_to "View organisation details", organisation_path(organisation) %></td>
+	<td><%= link_to "View Digital Team", uopusers_path %></td>
 <% end %>

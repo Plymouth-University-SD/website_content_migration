@@ -1,55 +1,20 @@
 <div class="controls">
 
-  <%= render partial: 'url_filters' %>
-
-  <% if @url.nil? %>
-    <%= render partial: 'url_list'  %>
-
-  <% else %>
+  
     <%= form_for :url, url: site_url_path(@url.site, @url), method: 'PUT', html: { id: 'url_form' } do |f| %>
 
-      <%= render partial: 'url_list' %>
-
+      
+			<%url = @url%>
+			<%= check_box_tag "url_select[#{url.id}]", '1', (url == @url or params["url_select"].try(:[], url.id.to_s)), disabled: url == @url %><%= link_to_if url != @url, url.request_uri, site_url_path(@site, url, url_filter_hash), title: url.url %> - (<%= url.title %>)
+			
       <%= render "shared/error_messages", target: @url %>
       <%= render "url_filter_hidden_fields" %>
       <%= hidden_field_tag :q, params[:q] if params[:q].present? %>
       
-      <div class="inputs-block">
-        <div class="select">
-          <%= f.select :content_type_id, grouped_options_for_content_type_select(@url), { include_blank: true }, 
-                       class: 'select2', placeholder: 'Content type' %>
-        </div>
-        <div class="select">
-          <%= f.select :guidance_id, guidance_select(@url), { include_blank: true }, 
-                       class: 'select2', placeholder: "Guidance" %>
-          <%= link_to '+', '#', title: 'Add Guidance', id: 'add_guidance' %>
-        </div>
-        <div class="select">
-          <%= f.select :series_id, series_select(@url), { include_blank: true }, 
-                       class: 'select2', placeholder: "Document series" %>
-          <%= link_to '+', '#', title: 'Add Series', id: 'add_series' %>
-        </div>
-        <div class="select">
-          <%= f.select :user_need_id, grouped_options_for_user_needs_group_select(@url), { include_blank: true }, 
-                       class: 'select2', placeholder: 'User need' %>
-        </div>
-      </div>
+      
       <div class="inputs-block comments">
         <%= f.text_area :comments, placeholder: 'Comments...', cols: "5", rows: "5" %>
-      </div>
-      <div class="inputs-block column-3">
-        <div class="scrape">
-          Scrape:
-          <%= f.label :for_scraping_true do %>
-            <%= f.radio_button(:for_scraping, true) %>
-            Yes
-          <% end -%>
-          <%= f.label :for_scraping_false do %>
-            <%= f.radio_button(:for_scraping, false) %>
-            No
-          <% end -%>
-        </div>
-      </div>
+      </div>      
       <div class="inputs-block">
         <ul class="destinies">
           <%= content_tag :li do %>
@@ -59,16 +24,13 @@
           <li><%= button_tag 'Updated, ready for migration', name: 'destiny', value: 'updated', class: "#{@url.state == :updated ? 'selected ' : ''}updated" %></li>
           <li><%= button_tag 'Ignore', name: 'destiny', value: 'ignore', class: "#{@url.state == :ignore ? 'selected ' : ''}ignore" %></li>
           <li><%= button_tag 'Migrated', name: 'destiny', value: 'migrated', class: "#{@url.state == :migrated ? 'selected ' : ''}migrated" %></li>
-          
-		  
-          <li><%= link_to 'Cancel', site_urls_path(@url.site), class: 'cancel button' %></li>
+					<% if @url.assignment == nil%>
+          	<li><%= link_to 'Exit', site_urls_path(@url.site), class: 'cancel button' %></li>
+					<%else%>
+						<li><%= link_to 'Exit', uopuser_assignments_path(@url.assignment.uopuser), class: 'cancel button' %></li>
+					<% end %>
         </ul>
       </div>
-    <% end %>
-  <% end %>
+		<%end%>	
+		<iframe width="1024" height="768" src="<%=@url.url%>"></iframe>
 </div>
-
-<%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.guidance), dialog_id: 'dialog_guidance', dialog_title: 'Create Guidance'} %>
-<%= render partial: 'url_group_dialog', locals: {url_group: UrlGroup.new(url_group_type: UrlGroupType.series), dialog_id: 'dialog_series', dialog_title: 'Create Document Series'} %>
-
-<iframe height="700px" width="100%" src="<%= @url.try(:url) %>" class="preview"></iframe>

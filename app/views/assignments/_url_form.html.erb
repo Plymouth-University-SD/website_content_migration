@@ -1,0 +1,41 @@
+<form action='#' method='get'>
+<table>
+	<tr>
+		<%= select_tag 'site', options_for_sites_select(@sites,@site), class: 'select2', include_blank: true, placeholder: 'site' %>   <%= submit_tag 'Update', class: 'update_button' %>
+	</tr>
+</table>
+  <%= text_field_tag 'q', params[:q], placeholder: 'Search on', id: 'search' %>
+	<%= select_tag 'search_by', options_for_search_by_select(params[:search_by]),class: 'select2',include_blank: false, placeholder: 'Search by' %>
+  <%= render "urls/url_filter_hidden_fields" %>
+  <%= submit_tag 'Find', class: 'search_button' %>
+</form>
+<form action='<%= uopuser_assignments_path %>' method='post'>
+	<table>
+	<% if @site != nil %>
+  	<% @urls.each do |url| %>
+    	<%= content_tag :tr, class: "#{url.state}#{@url == url ? ' selected' : nil}", 'data-url' => url.url do %>
+      	<td><%= check_box_tag "url_select[#{url.id}]", '1', (url == @url or params["url_select"].try(:[], url.id.to_s)), disabled: url == @url %></td>
+      	<td class="url"><a href='<%=url.url%>' target='_blank'><%= url.url.sub(@site.homepage, '') %></a> - (<%= url.title %>)</td>
+    	<% end %>
+  	<% end %>
+	<%end%>
+	
+	
+	
+</table>
+<%= button_tag 'Assign', name: 'assign', value: 'assign', class: "assign" %>&nbsp;<a href='<%= uopuser_assignments_path %>'>cancel</a>
+</form>
+
+<%= javascript_tag do %>
+  GOVUK.Urls.ready();
+  <% if @url %>
+    $(function() {
+      <% url_pos_in_list = @urls.index(@url) 
+      if url_pos_in_list > 3 %>
+        $('.urls').scrollTop(
+          $('.urls tbody tr:nth-child(<%= url_pos_in_list - 3 %>)').position().top - $('.urls').position().top
+        );
+      <% end %>
+    });
+  <% end %>
+<% end %>

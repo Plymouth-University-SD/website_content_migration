@@ -1,22 +1,20 @@
 class UrlsController < ApplicationController
 
-  include UrlsHelper
-  URL_FILTER_QUERY_TO_STATE = {'updating' => 'updating', 'updated' => 'updated', 'ignore' => 'ignore', 'migrated' => 'migrated'}
+  URL_FILTER_QUERY_TO_STATE = {'New' => 'new', 'For review' => 'review', 'Needs updating' => 'updating', 'Updated, ready for migration' => 'updated', 'Ignore' => 'ignore', 'Migrated' => 'migrated'}
 
+  include UrlsHelper
+  
   before_filter :find_site
 
   def index
-    @urls = url_filter(@site.urls).page(params[:page]).per(50)
-    @url = @urls.first
-    
-    flash.now[:error] = 'No Urls were found' if @url.nil?
-    render 'show'
+    @urls = url_filter(@site.urls)
+    @uopusers = Uopuser.all
+    flash.now[:error] = 'No Urls were found' if @urls.count == 0
   end
 
   def show
-    @urls = url_filter(@site.urls).page(params[:page]).per(50)
-    @url = @urls.find_by_id(params[:id])
     
+    @url = Url.find(params[:id])
     if @url.nil?
       @url = url_filter(@site.urls).first
       redirect_to site_url_path(@site, @url,  url_filter_hash) and return if @url
@@ -38,7 +36,8 @@ class UrlsController < ApplicationController
         url.for_scraping = nil if params[:url] && params[:url][:for_scraping].nil?
       end
       if selected_urls.all? {|url| url.update_attributes(params[:url]) }
-        redirect_to site_url_path(@url.site, @url.next(url_filter(@site.urls)), url_filter_hash.merge(last_saved_url: @url.id)) and return
+        #redirect_to site_url_path(@url.site, @url.next(url_filter(@site.urls)), url_filter_hash.merge(last_saved_url: @url.id)) and return
+        redirect_to uopuser_assignments_path(@url.assignment.uopuser_id, url_filter_hash.merge(last_saved_url: @url.id)) and return
       else
         @urls = url_filter(@site.urls)
         raise ActiveRecord::Rollback
@@ -49,11 +48,16 @@ class UrlsController < ApplicationController
 
   protected
 
+  
   def url_filter(urls)
-    urls = urls.where(state: URL_FILTER_QUERY_TO_STATE[params[:state]]) if params[:state].present?
+    urls = urls.where(state: params[:state]) if params[:state].present?
     urls = urls.where(for_scraping: params[:for_scrape] == 'true') if params[:for_scrape].present?
-    urls = urls.where("url like ?", "%#{params[:q]}%") if params[:q].present?
+    if params[:q].present? then
+      urls = urls.where("url like ?", "%#{params[:q]}%") if params[:search_by] == 'url'
+      urls = urls.where("title like ?", "%#{params[:q]}%") if params[:search_by] == 'title'
+    end
     urls = urls.order(params[:sort_by]) if params[:sort_by].present?
     urls
   end
+  
 end

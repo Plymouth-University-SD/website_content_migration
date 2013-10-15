@@ -1,0 +1,10 @@
+<table>
+  <tbody>
+    <% @uopusers.each do |uopuser| %>
+		<tr>
+			<td> <a href="<%= uopuser_assignments_path(uopuser.id)%>"><%= uopuser.name %></a> </td>
+		</tr>
+    <% end %>
+  </tbody>
+</table>
+<a href="<%= new_uopuser_path %>">New</a>

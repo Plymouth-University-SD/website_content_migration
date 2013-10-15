@@ -5,6 +5,7 @@ class Url < ActiveRecord::Base
   belongs_to :series, class_name: 'UrlGroup'
   belongs_to :content_type
   belongs_to :user_need
+  has_one :assignment
   has_one :scrape, as: :scrapable, class_name: 'ScrapeResult'
   delegate :new_url, :http_status, to: :mapping, allow_nil: true
   delegate :request_uri, :to_s, to: :uri

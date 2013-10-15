@@ -49,5 +49,5 @@ group :development, :test do
   gem 'rspec-rails', '2.13.2'
   gem 'archive_lister'
   gem 'mechanize'
-  # gem 'debugger'
+  gem 'debugger'
 end
