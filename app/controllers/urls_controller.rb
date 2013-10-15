@@ -1,8 +1,9 @@
 class UrlsController < ApplicationController
 
-  include UrlsHelper
-  URL_FILTER_QUERY_TO_STATE = {'updating' => 'updating', 'updated' => 'updated', 'ignore' => 'ignore', 'migrated' => 'migrated'}
+  URL_FILTER_QUERY_TO_STATE = {'New' => 'new', 'For review' => 'review', 'Needs updating' => 'updating', 'Updated, ready for migration' => 'updated', 'Ignore' => 'ignore', 'Migrated' => 'migrated'}
 
+  include UrlsHelper
+  
   before_filter :find_site
 
   def index
@@ -12,7 +13,7 @@ class UrlsController < ApplicationController
   end
 
   def show
-    #@urls = url_filter(@site.urls)
+    
     @url = Url.find(params[:id])
     if @url.nil?
       @url = url_filter(@site.urls).first
@@ -47,8 +48,9 @@ class UrlsController < ApplicationController
 
   protected
 
+  
   def url_filter(urls)
-    urls = urls.where(state: URL_FILTER_QUERY_TO_STATE[params[:state]]) if params[:state].present?
+    urls = urls.where(state: params[:state]) if params[:state].present?
     urls = urls.where(for_scraping: params[:for_scrape] == 'true') if params[:for_scrape].present?
     if params[:q].present? then
       urls = urls.where("url like ?", "%#{params[:q]}%") if params[:search_by] == 'url'
@@ -57,4 +59,5 @@ class UrlsController < ApplicationController
     urls = urls.order(params[:sort_by]) if params[:sort_by].present?
     urls
   end
+  
 end

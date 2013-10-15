@@ -4,7 +4,6 @@
 
   <% if @url.nil? %>
     <%= render partial: 'url_list'  %>
-		<%= render partial: 'url_assignment_form'%>
 
   <% else %>
     <%= form_for :url, url: site_url_path(@url.site, @url), method: 'PUT', html: { id: 'url_form' } do |f| %>
