@@ -39,6 +39,40 @@ class Site < ActiveRecord::Base
   def default_host
     hosts.order(:id).first
   end
+  
+  def url_count
+    urls.count
+  end
+  
+  def summarise_url_state_new
+    urls.where('state = ?', 'new').count
+  end
+  
+  def summarise_url_state_review
+    urls.where('state = ?', 'review').count
+  end
+  
+  def summarise_url_state_update
+    urls.where('state = ?', 'update').count
+  end
+  
+  def summarise_url_state_updated
+    urls.where('state = ?', 'updating').count
+  end
+  
+  def summarise_url_state_ignore
+    urls.where('state = ?', 'ignore').count
+  end
+  
+  def summarise_url_state_migrated
+    urls.where('state = ?', 'migrated').count
+  end
+  
+  def pages_completed
+    migrated_count = urls.where('state = ?', 'migrated').count
+    ignore_count = urls.where('state = ?', 'ignore').count
+    pages_completed_total = migrated_count + ignore_count
+  end
 
   # def to_param
 #     site

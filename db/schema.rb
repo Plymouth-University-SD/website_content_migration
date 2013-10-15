@@ -199,6 +199,7 @@ ActiveRecord::Schema.define(:version => 20130830162637) do
     t.integer  "user_need_id"
     t.boolean  "scrape_finished",                 :default => false, :null => false
     t.integer  "series_id"
+    t.string   "title"
   end
 
   add_index "urls", ["guidance_id"], :name => "index_urls_on_url_group_id"

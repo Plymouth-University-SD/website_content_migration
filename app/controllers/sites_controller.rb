@@ -18,7 +18,7 @@ class SitesController < ApplicationController
     @organisation = @site.organisation
     @total_data = WeeklyTotalData.new(@site.weekly_totals, Date.new(2012,10,17)..Date.today, true)
     @most_recent_hit_data = AggregratedMostRecentHitData.new(@site.aggregated_hits, @site.hits.most_recent_hit_on_date)
-
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @site }
