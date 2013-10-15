@@ -39,6 +39,20 @@ class Site < ActiveRecord::Base
   def default_host
     hosts.order(:id).first
   end
+  
+  def url_count
+    urls.count
+  end
+  
+  def summarise_url_state(state)
+    urls.where('state = ?', state).count
+  end
+  
+  def pages_completed
+    migrated_count = urls.where('state = ?', 'migrated').count
+    ignore_count = urls.where('state = ?', 'ignore').count
+    pages_completed_total = migrated_count + ignore_count
+  end
 
   # def to_param
 #     site
