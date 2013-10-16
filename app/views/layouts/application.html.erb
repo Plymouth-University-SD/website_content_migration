@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= yield :page_title %> | GOV.UK Transition</title>
+  <title><%= yield :page_title %> | PU Content migration</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,19 +34,19 @@
       <script src="https://assets.digital.cabinet-office.gov.uk/static/ie-27ccded64045ab36dbfb67c2f47c362b.js" type="text/javascript"></script>
     <![endif]-->
 
-    <link rel="shortcut icon" href="https://assets.digital.cabinet-office.gov.uk/static/favicon-447e4ac1ab790342660eacfe3dcce264.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="http://www.plymouth.ac.uk/favicon.ico" type="image/x-icon" />
 
     <!-- For third-generation iPad with high-resolution Retina display: -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-144x144-4e306e01c31e237722b82b7aa7130082.png">
+    <!--><link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-144x144-4e306e01c31e237722b82b7aa7130082.png">-->
     <!-- For iPhone with high-resolution Retina display: -->
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-114x114-f1d7ccdc7b86d923386b373a9ba5e3db.png">
+    <!--><link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-114x114-f1d7ccdc7b86d923386b373a9ba5e3db.png">-->
     <!-- For first- and second-generation iPad: -->
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-72x72-2ddbe540853e3ba0d30fbad2a95eab3c.png">
+    <!--><link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-72x72-2ddbe540853e3ba0d30fbad2a95eab3c.png">-->
     <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
-    <link rel="apple-touch-icon-precomposed" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png">
+    <!--><link rel="apple-touch-icon-precomposed" href="https://assets.digital.cabinet-office.gov.uk/static/apple-touch-icon-57x57-37527434942ed8407b091aae5feff3f3.png">-->
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="og:image" content="https://assets.digital.cabinet-office.gov.uk/static/opengraph-image-4e469785ca4cc8f8dd18d0627bc43d19.png">
+    <!--><meta name="og:image" content="https://assets.digital.cabinet-office.gov.uk/static/opengraph-image-4e469785ca4cc8f8dd18d0627bc43d19.png">-->
 
   <%= yield :extra_headers %>
 </head>
@@ -56,37 +56,19 @@
   <header class="navbar navbar-inverse navbar-fixed-top" role="banner">
     <div class="navbar-inner">
       <div class="container">
-        <%= link_to 'GOV.UK Transition', root_path, :class => "brand" %>
+        <%= link_to 'Content Migration with Plymouth University', root_path, :class => "brand" %>
         <nav role="navigation" class="nav-collapse">
           <ul class="nav">
             <li><a href="/">Organisations</a></li>
-            <% unless DISABLE_EDITING %>
-              <li><%= nav_link 'User needs', user_needs_path %></li>
-              <% if @site %>
-                <li><%= nav_link 'Scrape', site_scrape_results_path(@site) %></li>
-              <% end %>
+            <% unless DISABLE_EDITING %> 
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><%= nav_link 'Content types', admin_content_types_path %></li>
                   <li><%= nav_link 'Import URLs', admin_import_urls_path %></li>
                 </ul>
               </li>
             <% end %>
           </ul>
-          <ul class="nav pull-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="http://digital.cabinetoffice.gov.uk/">GDS blog</a></li>
-                <li class="divider"></li>
-                <li><%= link_to 'Sign out', gds_sign_out_path %></li>
-              </ul>
-            </li>
-          </ul>
-          <p class="navbar-text pull-right">
-            Signed in as <%= link_to current_user.name, Plek.current.find('signon') %>
-          </p>
         </nav><!--/.nav-collapse -->
       </div>
     </div>
