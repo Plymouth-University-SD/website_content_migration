@@ -4,7 +4,7 @@
     <%= form_for :url, url: site_url_path(@url.site, @url), method: 'PUT', html: { id: 'url_form' } do |f| %>
 
  		<div>
-			<% if @url.assignment == nil%>
+			<% if @url.assignment.nil? %>
 				Not assigned
 			<%else%>	
 				Assigned to: <%= @url.assignment.uopuser.name %><br/><br/>
