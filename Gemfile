@@ -50,4 +50,6 @@ group :development, :test do
   gem 'archive_lister'
   gem 'mechanize'
   gem 'debugger'
+  gem 'capistrano', '2.15.5'
+  gem 'capistrano-ext'
 end
