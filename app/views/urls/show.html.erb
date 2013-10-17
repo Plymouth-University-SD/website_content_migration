@@ -3,9 +3,17 @@
   
     <%= form_for :url, url: site_url_path(@url.site, @url), method: 'PUT', html: { id: 'url_form' } do |f| %>
 
-      
+ 		<div>
+			<% if @url.assignment == nil%>
+				Not assigned
+			<%else%>	
+				Assigned to: <%= @url.assignment.uopuser.name %><br/><br/>
+			<%end%>
+    	</div> 
+	  
 			<%url = @url%>
-			<%= check_box_tag "url_select[#{url.id}]", '1', (url == @url or params["url_select"].try(:[], url.id.to_s)), disabled: url == @url %><%= link_to_if url != @url, url.request_uri, site_url_path(@site, url, url_filter_hash), title: url.url %> - (<%= url.title %>)
+			<%= check_box_tag "url_select[#{url.id}]", '1', (url == @url or params["url_select"].try(:[], url.id.to_s)), disabled: url == @url %><%= link_to_if url != @url, url.request_uri, site_url_path(@site, url, url_filter_hash), title: url.url %> - (<%= url.title %>) 
+			
 			
       <%= render "shared/error_messages", target: @url %>
       <%= render "url_filter_hidden_fields" %>
