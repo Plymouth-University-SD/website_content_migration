@@ -1,4 +1,13 @@
 <form action='#' method='get'>
+	<script type="text/javascript">
+	$(function () {
+	       $('#selectall').click(function (event) {
+	           var selected = this.checked;
+	           // Iterate each checkbox
+	           $(':checkbox').each(function () {this.checked = selected;});
+	       });
+	    });
+	</script>	
 <table>
 	<tr>
 		<%= select_tag 'site', options_for_sites_select(@sites,@site), class: 'select2', include_blank: true, placeholder: 'site' %>   <%= submit_tag 'Update', class: 'update_button' %>
@@ -12,6 +21,11 @@
 <form action='<%= uopuser_assignments_path %>' method='post'>
 	<table>
 	<% if @site != nil %>
+		<% if @urls.count != 0 %>
+			<td><input type="checkbox" id="selectall" name="selectall" /></td>
+			<td>Select All</td>
+		<% end %>
+	
   	<% @urls.each do |url| %>
     	<%= content_tag :tr, class: "#{url.state}#{@url == url ? ' selected' : nil}", 'data-url' => url.url do %>
       	<td><%= check_box_tag "url_select[#{url.id}]", '1', (url == @url or params["url_select"].try(:[], url.id.to_s)), disabled: url == @url %></td>
