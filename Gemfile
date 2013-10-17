@@ -8,7 +8,6 @@ gem 'mysql2', '0.3.11'
 gem 'aws-ses', '0.4.4', require: 'aws/ses'
 
 gem 'plek', '1.2.0'
-gem 'gds-sso', '3.0.0'
 
 gem 'therubyracer', '0.11.4'
 gem 'jquery-rails', '2.0.2' # TODO: Newer versions break publisher sortable parts. Will need attention.

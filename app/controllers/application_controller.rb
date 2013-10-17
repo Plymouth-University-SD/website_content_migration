@@ -1,8 +1,4 @@
 class ApplicationController < ActionController::Base
-  include GDS::SSO::ControllerMethods
-
-  before_filter :require_signin_permission!
-  before_filter :require_action_enabled!
 
   protect_from_forgery
 
