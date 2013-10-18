@@ -60,6 +60,7 @@ dirs.each do |file|
   # site = Site.find_or_initialize_by_site(s['site'])
   site = Site.find_or_initialize_by_homepage(s['homepage'])
   site.organisation = organisation
+  site.site = s['host']
   site.tna_timestamp = s['tna_timestamp']
   site.query_params = query_params
   site.global_http_status = global_http_status
