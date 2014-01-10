@@ -7,7 +7,7 @@ module Transition
         site = Site.find_by_site!(site_abbr)
         logger, logfilename = new_logger(site)
         logger.info "Importing site urls for #{site.organisation.title} - #{site.site}"
-        successes, failures = 0, 0
+        successes, failures, existing = 0, 0, 0
         CsvMapper.import(filename) do
           map_to Url
           named_columns
@@ -18,18 +18,24 @@ module Transition
           after_row lambda { |row, url|
             logger.warn('ignoring empty row') and return if row.empty?
             url.url = BLURI(url.url).canonicalize!(allow_query: :all).to_s
-            
-            url.site = site
-            if (url.save rescue false)
-              successes += 1
-            else
-              logger.error "#{url.errors.messages.inspect}: #{row.inspect}"
-              failures += 1
+
+            myurl = Url.find_by_url(url.url)
+            if (myurl)
+              existing += 1
+            else            
+              url.site = site
+              if (url.save rescue false)
+                logger.info "Sucessfully imported row: #{row.inspect}"
+                successes += 1
+              else
+                logger.error "#{url.errors.messages.inspect}: #{row.inspect}"
+                failures += 1
+              end
             end
           }
         end
 
-        logger.info "Urls - #{successes} successfully imported, #{failures} failed."
+        logger.info "Urls - #{successes} successfully imported, #{failures} failed, #{existing} previously imported."
         logger.close
         logfilename
       end
