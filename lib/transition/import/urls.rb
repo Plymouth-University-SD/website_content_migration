@@ -1,4 +1,4 @@
-require 'csv-mapper'
+require 'csv'
 
 module Transition
   module Import
@@ -8,34 +8,29 @@ module Transition
         logger, logfilename = new_logger(site)
         logger.info "Importing site urls for #{site.organisation.title} - #{site.site}"
         successes, failures, existing = 0, 0, 0
-        CsvMapper.import(filename) do
-          map_to Url
-          named_columns
-
-          url('Url')
-          title('Title')
-          
-          after_row lambda { |row, url|
-            logger.warn('ignoring empty row') and return if row.empty?
-            url.url = BLURI(url.url).canonicalize!(allow_query: :all).to_s
-
-            myurl = Url.find_by_url(url.url)
-            if (myurl)
+        failure_messages = []
+        begin
+          CSV.foreach(filename, :headers => true , :encoding => 'ISO-8859-1') do |row|          
+            if (Url.find_by_url(row["Url"]))
               existing += 1
-            else            
-              url.site = site
-              if (url.save rescue false)
-                logger.info "Sucessfully imported row: #{row.inspect}"
+            else
+              new_url = Url.new(
+                :url => row["Url"],
+                :title => row["Title"],
+                :site => site)
+              if (new_url.save rescue false) 
                 successes += 1
+                logger.info ("Url #{row["Url"]} added")
               else
-                logger.error "#{url.errors.messages.inspect}: #{row.inspect}"
                 failures += 1
+                logger.error "#{new_url.errors.messages.inspect}: #{row.inspect}"
               end
-            end
-          }
+            end          
+          end
+          logger.info "Urls - #{successes} successfully imported, #{failures} failed, #{existing} previously imported."
+        rescue Exception => e
+          logger.error "Upload failed - #{e.to_s}"
         end
-
-        logger.info "Urls - #{successes} successfully imported, #{failures} failed, #{existing} previously imported."
         logger.close
         logfilename
       end
