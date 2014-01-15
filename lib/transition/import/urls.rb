@@ -1,4 +1,6 @@
+# encoding: UTF-8
 require 'csv'
+require 'uri'
 
 module Transition
   module Import
@@ -11,12 +13,12 @@ module Transition
         failure_messages = []
         begin
           CSV.foreach(filename, :headers => true , :encoding => 'ISO-8859-1') do |row|          
-            if (Url.find_by_url(row["Url"]))
+            if (Url.find_by_url(URI.escape(row["Url"])))
               existing += 1
             else
               new_url = Url.new(
-                :url => row["Url"],
-                :title => row["Title"],
+                :url => URI.escape(row["Url"]),
+                :title => clean(row["Title"]),
                 :site => site)
               if (new_url.save rescue false) 
                 successes += 1
@@ -33,6 +35,17 @@ module Transition
         end
         logger.close
         logfilename
+      end
+
+      def self.clean(text)
+        # http://stackoverflow.com/questions/1268289/how-to-get-rid-of-non-ascii-characters-in-ruby
+        encoding_options = {
+          :invalid           => :replace,  # Replace invalid byte sequences
+          :undef             => :replace,  # Replace anything not defined in ASCII
+          :replace           => '',        # Use a blank for those replacements
+          :universal_newline => true       # Always break lines with \n
+        }
+        text.encode Encoding.find('ASCII'), encoding_options
       end
 
       def self.new_logger(site)
