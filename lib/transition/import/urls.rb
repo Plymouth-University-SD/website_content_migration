@@ -22,7 +22,7 @@ module Transition
                 :site => site)
               if (new_url.save rescue false) 
                 successes += 1
-                logger.info ("Url #{row["Url"]} added")
+                logger.info ("Url #{URI.escape(row["Url"])} added")
               else
                 failures += 1
                 logger.error "#{new_url.errors.messages.inspect}: #{row.inspect}"
