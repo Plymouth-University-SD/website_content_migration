@@ -29,8 +29,10 @@ class OrganisationsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.json { 
-        render json: generate_stats( @organisation )
+        render json: generate_stats_json( @organisation )
       }
+
+      format.csv { render csv: @organisation}
     end
   end
 
@@ -94,7 +96,7 @@ class OrganisationsController < ApplicationController
     end
   end
 
-  def generate_stats (organisation)    
+  def generate_stats_json (organisation)    
     statistics = []
     organisation.summarise_url_state.each do |state|      
       statistic = {title:{text: "#{state[1]}", highlight: true}, description: state[0].capitalize}
