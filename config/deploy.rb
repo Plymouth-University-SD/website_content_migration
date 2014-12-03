@@ -13,6 +13,9 @@ set :use_sudo, false
 set :deploy_to,  "/home/#{user}/#{application}"
 set :scm, :git
 
+# Use login shell so that we have access to ruby via rbenv
+set :default_shell, 'bash -l'
+
 begin
   require 'capistrano/ext/multistage'
 rescue LoadError
